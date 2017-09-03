@@ -36,7 +36,7 @@ node {
         // Get all the terraform variables for our infrastructure from a manifest
         def infrastructureManifest = functions.getInfrastructureManifest(env_name, region)
         for (data in infrastructureManifest) {
-            tfVarsFileData += "${data.key} = \"${data.value}\"${lineSeparator}"
+            tfVarsFileData += "${data.key} = \"${data.value}\"${newLine}"
         }
         infrastructureManifest = null
 
