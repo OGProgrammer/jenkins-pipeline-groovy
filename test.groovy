@@ -15,11 +15,8 @@ node {
     }
 
     stage("prep") {
-        // Clean up previous build
-        deleteDir()
-
         // Get Parameters
-        // * An environment variable for TEST_APP_REPO must be set!
+        /** An environment variable for TEST_APP_REPO must be set! */
         def env_name = "${env_name}"
         def app_repo = "${TEST_APP_REPO}" // git@github.com:OGProgrammer/test-app.git
         println "Preforming tests on [${env_name}] environemnt for [${app_repo}] application."
