@@ -19,15 +19,16 @@ node {
         deleteDir()
 
         // Get Parameters
+        // * An environment variable for TEST_APP_REPO must be set!
         def env_name = "${env_name}"
-        def app_name = "${app_name}" //git@github.com:OGProgrammer/test-app.git
-        println "Preforming tests on [${env_name}] environemnt for [${app_name}] application."
+        def app_repo = "${TEST_APP_REPO}" // git@github.com:OGProgrammer/test-app.git
+        println "Preforming tests on [${env_name}] environemnt for [${app_repo}] application."
 
         dir(groovyScriptsPath) {
             functions = load("functions.groovy")
         }
 
-        git url: "${app_name}", branch: env_name
+        git url: "${app_repo}", branch: env_name
     }
 
     stage("php_lint") {

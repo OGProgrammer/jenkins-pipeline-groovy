@@ -26,7 +26,7 @@ def getLatestBuild(environment) {
  * Updates the latest-build-*.json file with the last docker image build tag
  *
  * @param string environment The target environment that build data is being retrieved for. Ex. dev, prod, etc.
- * @param string build_name Example ogprogrammer/test-app
+ * @param string build_name Example docker image name in docker hub ogprogrammer/test-app
  * @param string build_tag Example 1.0.0
  */
 def setLatestBuild(environment, build_name, build_tag) {
@@ -88,13 +88,15 @@ def getInfrastructureManifest(env_name, region)
  */
 def getManifest(branch) {
     def directory = "manifest-${branch}"
+    def manifest_repository = "${MANIFEST_REPO}" //git@github.com:OGProgrammer/terraform-example-manifest.git
+
     if (fileExists(directory)) {
         return directory
     }
 
     dir(directory) {
         sh """
-            git clone ${MANIFEST_REPO} --branch=${branch} .
+            git clone ${manifest_repository} --branch=${branch} .
         """
     }
 
