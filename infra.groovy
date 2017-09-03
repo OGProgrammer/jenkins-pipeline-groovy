@@ -2,14 +2,14 @@ import hudson.model.*
 
 node {
 
-    functions = load('functions.groovy')
-
     stage('prep') {
         deleteDir()
         def env_name = "${env_name}"
         def region = "${region}"
         def action = "${action}"
         println "Preforming [${action}] with AWS infrastrucutre [${env_name}] in the [${region}] region."
+
+        functions = load("${WORKSPACE}/functions.groovy")
 
         // Build the terraform vars
         tfVarsFileData = ''
