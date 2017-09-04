@@ -25,6 +25,7 @@ node {
         def applicationManifest = functions.getApplicationManifest(env_name, app_name)
         def app_repo = applicationManifest.app_repo
         def docker_repo = applicationManifest.docker_repo
+        // Global param, accessible in other stage nodes
         image_name = applicationManifest.image_name
         applicationManifest = null
 
