@@ -24,8 +24,8 @@ node {
         // Get variables from the application manifest
         def applicationManifest = functions.getApplicationManifest(env_name, app_name)
         def app_repo = applicationManifest.app_repo
-        def image_name = applicationManifest.image_name
         def docker_repo = applicationManifest.docker_repo
+        image_name = applicationManifest.image_name
         applicationManifest = null
 
         // Other parameters needed
