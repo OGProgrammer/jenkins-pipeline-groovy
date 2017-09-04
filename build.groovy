@@ -40,7 +40,7 @@ node {
     }
 
     stage('build') {
-        sh "docker build -f ${dockerBuildFile} -t ${imageNameAndTag}"
+        sh "docker build -f ${dockerBuildFile} -t ${imageNameAndTag} ./"
     }
 
     stage('publish') {
