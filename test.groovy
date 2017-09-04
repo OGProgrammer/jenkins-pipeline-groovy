@@ -24,6 +24,7 @@ node {
         // Get the app_repo from the application manifest
         def applicationManifest = functions.getApplicationManifest(env_name, app_name)
         def app_repo = applicationManifest.app_repo
+        applicationManifest = null
 
         println "Testing the app [name:${app_name}, repo:${app_repo}] on the [${env_name}] environemnt."
 
