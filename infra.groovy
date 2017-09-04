@@ -3,15 +3,15 @@ import hudson.model.*
 node {
     deleteDir()
 
-    def groovyScriptsPath = 'jenkins-pipeline-groovy'
+    def groovy_scripts_path = 'jenkins-pipeline-groovy'
 
     stage('bootstrap') {
-        dir(groovyScriptsPath) {
+        dir(groovy_scripts_path) {
             sh """
                 git clone git@github.com:OGProgrammer/jenkins-pipeline-groovy.git --branch=master .
             """
         }
-        dir(groovyScriptsPath) {
+        dir(groovy_scripts_path) {
             functions = load("functions.groovy")
         }
     }
@@ -23,17 +23,17 @@ node {
         println "Preforming [${action}] with AWS infrastrucutre [${env_name}] in the [${region}] region."
 
         // Build the terraform vars
-        tfVarsFileData = ''
+        tfvars_file_data = ''
         def newLine = System.getProperty('line.separator')
 
         // Jenkins parameters set manually
-        tfVarsFileData += "env_name = \"${env_name}\"${newLine}"
-        tfVarsFileData += "region = \"${region}\"${newLine}"
+        tfvars_file_data += "env_name = \"${env_name}\"${newLine}"
+        tfvars_file_data += "region = \"${region}\"${newLine}"
 
         // Get all the terraform variables for our infrastructure from a manifest
         def infrastructureManifest = functions.getInfrastructureManifest(env_name, region)
         for (data in infrastructureManifest) {
-            tfVarsFileData += "${data.key} = \"${data.value}\"${newLine}"
+            tfvars_file_data += "${data.key} = \"${data.value}\"${newLine}"
         }
         infrastructureManifest = null
 
@@ -41,7 +41,7 @@ node {
 
     stage ('plan') {
         git url: "git@github.com:OGProgrammer/terraform-aws-ecs-infrastructure.git", branch: "master"
-        writeFile file: 'variables.tfvars', text: tfVarsFileData
+        writeFile file: 'variables.tfvars', text: tfvars_file_data
         sh "./tf-${action}.sh variables.tfvars"
     }
 }

@@ -3,27 +3,31 @@ import hudson.model.*
 node {
     deleteDir()
 
-    def groovyScriptsPath = 'jenkins-pipeline-groovy'
+    def groovy_scripts_path = 'jenkins-pipeline-groovy'
 
     stage('bootstrap') {
-        dir(groovyScriptsPath) {
+        dir(groovy_scripts_path) {
             sh """
                 git clone git@github.com:OGProgrammer/jenkins-pipeline-groovy.git --branch=master .
             """
         }
-        dir(groovyScriptsPath) {
+        dir(groovy_scripts_path) {
             functions = load("functions.groovy")
         }
     }
 
     stage("prep") {
-        // Get Parameters
-        /** An environment variable for TEST_APP_REPO must be set! */
+        // Get Jenkins Parameters
         def env_name = "${env_name}"
-        def app_repo = "${TEST_APP_REPO}" // git@github.com:OGProgrammer/test-app.git
-        println "Preforming tests on [${env_name}] environemnt for [${app_repo}] application."
+        def app_name = "${app_name}"
 
-        git url: "${app_repo}", branch: env_name
+        // Get the app_repo from the application manifest
+        def applicationManifest = functions.getApplicationManifest(env_name, app_name)
+        def app_repo = applicationManifest.app_repo
+
+        println "Testing the app [name:${app_name}, repo:${app_repo}] on the [${env_name}] environemnt."
+
+        git poll: true, url: "${app_repo}", branch: "${env_name}"
     }
 
     stage("php_lint") {
