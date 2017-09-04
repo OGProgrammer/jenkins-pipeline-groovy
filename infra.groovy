@@ -37,6 +37,13 @@ node {
         }
         infrastructureManifest = null
 
+        // Get docker manifest vars
+        def dockerManifest = functions.getDockerManifest()
+        for (data in dockerManifest) {
+            tfvars_file_data += "${data.key} = \"${data.value}\"${newLine}"
+        }
+        dockerManifest = null
+
     }
 
     stage ('plan') {
