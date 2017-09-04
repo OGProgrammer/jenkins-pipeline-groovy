@@ -8,12 +8,12 @@ import groovy.json.JsonSlurper
  * Returns the latest build information.
  *
  * @param string environment The target environment that build data is being retrieved for. Ex. dev, prod, etc.
- * @param string app_name Example test-app - This needs to be a directory in the manifest under applications.
+ * @param string app_name Example test-app - This needs to be a directory in the manifest under application.
  */
 def getLatestBuild(environment, app_name) {
     def directory = getManifest("master")
 
-    def latest_build_file = "applications/${app_name}/builds/latest-build-${environment}.json"
+    def latest_build_file = "application/${app_name}/builds/latest-build-${environment}.json"
 
     def build_data = null
     dir(directory) {
@@ -27,7 +27,7 @@ def getLatestBuild(environment, app_name) {
  * Updates the latest-build-*.json file with the last docker image build tag
  *
  * @param string environment The target environment that build data is being retrieved for. Ex. dev, prod, etc.
- * @param string app_name Example test-app - This needs to be a directory in the manifest under applications/
+ * @param string app_name Example test-app - This needs to be a directory in the manifest under application/
  * @param string build_name Example docker image name in docker hub ogprogrammer/test-app
  * @param string build_tag Example 1.0.0
  */
@@ -38,7 +38,7 @@ def setLatestBuild(environment, app_name, build_name, build_tag) {
         // Prevent someone else from pushing and messing up the build
         sh "git pull origin master"
 
-        def latest_build_file = "applications/${app_name}/builds/latest-build-${environment}.json"
+        def latest_build_file = "application/${app_name}/builds/latest-build-${environment}.json"
 
         writeFile(
                 file: latest_build_file,
@@ -87,7 +87,7 @@ def getApplicationManifest(env_name, app_name)
 {
     def directory = getManifest("master")
 
-    def build_data = readFile "${directory}/applications/${app_name}/${env_name}.json"
+    def build_data = readFile "${directory}/application/${app_name}/${env_name}.json"
 
     return new JsonSlurper().parseText(build_data)
 }
