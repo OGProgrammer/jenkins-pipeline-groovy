@@ -20,12 +20,12 @@ node {
         // Jenkins parameters
         def env_name = "${env_name}"
         def image_name = "${image_name}" // thisisjustatest/test-app
+        def docker_repo = "${docker_repo}" // git@github.com:OGProgrammer/docker-test-app.git
         def app_repo = "${TEST_APP_REPO}" // git@github.com:OGProgrammer/test-app.git
-        def docker_repo = "git@github.com:OGProgrammer/docker-test-app.git"
 
         // Other parameters needed
         imageName = "${image_name}"
-        imageTag = "${env.BUILD_ID}-${environment}"
+        imageTag = "${env.BUILD_ID}-${env_name}"
         imageNameAndTag = "${imageName}:${imageTag}"
         dockerBuildFile = "dockerfiles/${env_name}/Dockerfile"
 
