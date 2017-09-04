@@ -98,7 +98,7 @@ def getApplicationManifest(env_name, app_name)
 def getDockerManifest()
 {
     def directory = getManifest("master")
-    def build_data = readFile "docker.json"
+    def build_data = readFile "${directory}/docker.json"
     return new JsonSlurper().parseText(build_data)
 }
 
