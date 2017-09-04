@@ -29,6 +29,7 @@ node {
 
         // Jenkins parameters set manually
         tfvars_file_data += "env_name = \"${env_name}\"${newLine}"
+        tfvars_file_data += "app_name = \"${app_name}\"${newLine}"
         tfvars_file_data += "region = \"${region}\"${newLine}"
 
         // Get all the terraform variables for our infrastructure manifest
