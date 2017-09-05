@@ -54,7 +54,7 @@ node {
         // Now lets check for docker tag and put into tfvars file
         if (!docker_tag) {
             latestBuildInfo = functions.getLatestBuild(env_name, app_name)
-            docker_tag = latestBuildInfo.docker_tag
+            docker_tag = latestBuildInfo.build_tag
         }
         tfvars_file_data += "docker_tag = \"${docker_tag}\"${newLine}"
         latestBuildInfo = null
