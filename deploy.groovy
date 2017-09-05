@@ -41,10 +41,24 @@ node {
 
         // Get all the terraform variables for our application manifest
         def applicationManifest = functions.getApplicationManifest(env_name, app_name)
+        // Get what docker tag to go deploy
+        def docker_tag = applicationManifest.docker_tag
         for (data in applicationManifest) {
-            tfvars_file_data += "${data.key} = \"${data.value}\"${newLine}"
+            // Put everything but docker tag in, we need to check later
+            if (data.key != "docker_tag") {
+                tfvars_file_data += "${data.key} = \"${data.value}\"${newLine}"
+            }
         }
         applicationManifest = null
+
+        // Now lets check for docker tag and put into tfvars file
+        if (!docker_tag) {
+            latestBuildInfo = functions.getLatestBuild(env_name, app_name)
+            docker_tag = latestBuildInfo.docker_tag
+        }
+        tfvars_file_data += "docker_tag = \"${docker_tag}\"${newLine}"
+        latestBuildInfo = null
+
     }
 
     stage ('deploy') {
