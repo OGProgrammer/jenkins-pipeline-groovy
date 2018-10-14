@@ -44,6 +44,13 @@ node {
         }
         dockerManifest = null
 
+        // Get s3prefix manifest var
+        def terraformManifest = functions.getTerraformManifest()
+        for (data in terraformManifest ) {
+            tfvars_file_data += "${data.key} = \"${data.value}\"${newLine}"
+        }
+        terraformManifest  = null
+
     }
 
     stage ('plan') {

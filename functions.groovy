@@ -103,6 +103,16 @@ def getDockerManifest()
 }
 
 /**
+ * Returns the manifest as an object for the given region and environment name.
+ */
+def getTerraformManifest()
+{
+    def directory = getManifest("master")
+    def build_data = readFile "${directory}/terraform.json"
+    return new JsonSlurper().parseText(build_data)
+}
+
+/**
  * Clones down a given branch of your manifest repo.
  *
  * An environment variable for MANIFEST_REPO must be set!

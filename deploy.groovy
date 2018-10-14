@@ -32,6 +32,13 @@ node {
         tfvars_file_data += "app_name = \"${app_name}\"${newLine}"
         tfvars_file_data += "region = \"${region}\"${newLine}"
 
+        // Get s3 prefix for the state buckets
+        def terraformManifest = functions.getTerraformManifest()
+        for (data in terraformManifest) {
+            tfvars_file_data += "${data.key} = \"${data.value}\"${newLine}"
+        }
+        terraformManifest = null
+
         // Get all the terraform variables for our infrastructure manifest
         def infrastructureManifest = functions.getInfrastructureManifest(env_name, region)
         for (data in infrastructureManifest) {

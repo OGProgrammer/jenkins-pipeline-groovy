@@ -2,6 +2,8 @@
 
 An example for Josh's Terraform+Jenkins+AWS+Docker Tutorial
 
+Note that the `terraform-aws-ecs-*` repos are hard coded in groovy scripts. In your production you'd want to change this to your copy of these repos.
+
 ### About & other info
 
 ```
